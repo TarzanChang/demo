@@ -1,0 +1,71 @@
+package com.example_tarzan.demo.responses;
+
+import com.example_tarzan.demo.models.Supplier;
+
+public class GetSupplierResponse {
+    private int id;
+    private String suppliername;
+    private String address;
+    private String phone;
+    private String email;
+
+    public GetSupplierResponse(){
+
+    }
+
+    public GetSupplierResponse(int id, String suppliername, String address, String phone, String email) {
+        this.id = id;
+        this.suppliername = suppliername;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public GetSupplierResponse(Supplier supplier) {
+        this.id = supplier.getId();
+        this.suppliername = supplier.getSuppliername();
+        this.address = supplier.getAddress();
+        this.phone = supplier.getPhone();
+        this.email = supplier.getEmail();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSuppliername() {
+        return suppliername;
+    }
+
+    public void setSuppliername(String suppliername) {
+        this.suppliername = suppliername;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
