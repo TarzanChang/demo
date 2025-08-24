@@ -3,6 +3,9 @@ package com.example_tarzan.demo.responses;
 public class CreateUserResponse {
     private String username;
 
+    public CreateUserResponse() {
+    }
+
     public CreateUserResponse(String username) {
         this.username = username;
     }

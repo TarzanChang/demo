@@ -2,18 +2,30 @@ package com.example_tarzan.demo.responses;
 
 import com.example_tarzan.demo.models.Supplier;
 
-public class GetSupplierResponse {
+import java.util.List;
+
+public class SupplierResponse {
     private int id;
     private String suppliername;
     private String address;
     private String phone;
     private String email;
 
-    public GetSupplierResponse(){
+    private List<ProductResponse> products;
 
+    public SupplierResponse(){
+
+    };
+
+    public List<ProductResponse> getProducts() {
+        return products;
     }
 
-    public GetSupplierResponse(int id, String suppliername, String address, String phone, String email) {
+    public void setProducts(List<ProductResponse> products) {
+        this.products = products;
+    }
+
+    public SupplierResponse(int id, String suppliername, String address, String phone, String email) {
         this.id = id;
         this.suppliername = suppliername;
         this.address = address;
@@ -21,12 +33,15 @@ public class GetSupplierResponse {
         this.email = email;
     }
 
-    public GetSupplierResponse(Supplier supplier) {
+    public SupplierResponse(Supplier supplier) {
         this.id = supplier.getId();
         this.suppliername = supplier.getSuppliername();
         this.address = supplier.getAddress();
         this.phone = supplier.getPhone();
         this.email = supplier.getEmail();
+//        this.products = supplier.getProducts()
+//                .stream()
+//                .map(ProductResponse::new).toList();
     }
 
     public int getId() {

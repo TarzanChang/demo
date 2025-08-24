@@ -4,34 +4,37 @@ import com.example_tarzan.demo.models.Product;
 
 import java.math.BigDecimal;
 
-public class GetproductResponse {
+public class ProductResponse {
     private int id;
     private String productname;
     private BigDecimal price;
     private int quantity;
-    private boolean status;
-    private Integer supplierId;
+    private SupplierResponse supplier;
 
-    public GetproductResponse(){
-
+    public SupplierResponse getSupplier() {
+        return supplier;
     }
 
-    public GetproductResponse(int id, String productname, BigDecimal price, int quantity, boolean status,Integer supplierId) {
-        this.id = id;
-        this.productname = productname;
-        this.price = price;
-        this.quantity = quantity;
-        this.status = status;
-        this.supplierId = supplierId;
+    public void setSupplier(SupplierResponse supplier) {
+        this.supplier = supplier;
     }
 
-    public GetproductResponse(Product product){
+    public ProductResponse(Product product) {
         this.id = product.getId();
         this.productname = product.getProductname();
         this.price = product.getPrice();
         this.quantity = product.getQuantity();
-        this.status = product.isStatus();
-        this.supplierId = product.getSupplierId();
+    }
+
+    public ProductResponse(int id, String productname, BigDecimal price, int quantity) {
+        this.id = id;
+        this.productname = productname;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public ProductResponse(){
+
     }
 
     public int getId() {
@@ -64,21 +67,5 @@ public class GetproductResponse {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
     }
 }

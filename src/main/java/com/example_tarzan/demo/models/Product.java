@@ -19,9 +19,19 @@ public class Product {
     private int quantity;
     @Column(name="status")
     private boolean status;
-    @Column(name="supplierId")
-    private Integer supplierId;
+//    @Column(name="supplierId")
+//    private Integer supplierId;
+    @ManyToOne
+    @JoinColumn(name="supplier_id")
+    private Supplier supplier;
 
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
     public Product(){
 
     }
@@ -32,7 +42,6 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.status = status;
-        this.supplierId = supplierId;
     }
 
     public int getId() {
@@ -75,13 +84,13 @@ public class Product {
         this.status = status;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
+//    public Integer getSupplierId() {
+//        return supplierId;
+//    }
+//
+//    public void setSupplierId(Integer supplierId) {
+//        this.supplierId = supplierId;
+//    }
 
     @Override
     public String toString(){
@@ -91,7 +100,6 @@ public class Product {
                 ", price = '" + price + '\'' +
                 ", quantity = '" + quantity + '\'' +
                 ", status = '" + status + '\'' +
-                ", supplierId = '" + supplierId + '\'' +
                 '}';
     }
 }

@@ -1,7 +1,9 @@
 package com.example_tarzan.demo.controllers;
 
 import com.example_tarzan.demo.models.Product;
+import com.example_tarzan.demo.models.Supplier;
 import com.example_tarzan.demo.repositories.ProductRepository;
+import com.example_tarzan.demo.repositories.SupplierRepository;
 import com.example_tarzan.demo.requests.CreateProductRequest;
 import com.example_tarzan.demo.requests.UpdateProductRequest;
 import com.example_tarzan.demo.responses.*;
@@ -20,30 +22,40 @@ public class ProductController {
     //Step 2. 建立 Product Repository extends JpaRepository
     //Step 3. 建立 Product CRUD API
     private final ProductRepository productRepository;
+    private final SupplierRepository supplierRepository;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
+    public ProductController(ProductRepository productRepository,SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
+        this.supplierRepository = supplierRepository;
     }
     @GetMapping
-    public ResponseEntity<List<GetproductResponse>> getAllProducts(){
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
         List<Product> productList = productRepository.findAll();
-        return ResponseEntity.ok(productList.stream().map(GetproductResponse::new).toList());
+//        return ResponseEntity.ok(productList.stream().map(ProductResponse::new).toList());
+        return ResponseEntity.ok(productList.stream().map(product -> {
+            //1. Product -> ProductResponse
+            ProductResponse response = new ProductResponse(product);
+            //2. 把 supplier 填充至 SupplierResponse
+            response.setSupplier(new SupplierResponse(product.getSupplier()));
+            return response;
+        }).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetproductResponse> getProductById(@PathVariable int id){
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable int id){
         Optional<Product> product = productRepository.findById(id);
 
         if (product.isPresent()){
-            GetproductResponse response = new GetproductResponse(product.get());
+            ProductResponse response = new ProductResponse(product.get());
+            response.setSupplier(new SupplierResponse(product.get().getSupplier()));
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateProductResponse> updateProductById(@PathVariable int id, @RequestBody UpdateProductRequest request){
+    public ResponseEntity<ProductResponse> updateProductById(@PathVariable int id, @RequestBody UpdateProductRequest request){
         //1. 找到 User
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()){
@@ -63,12 +75,9 @@ public class ProductController {
             if (request.isStatus() != null){
                 updatedProduct.setStatus(request.isStatus());
             }
-            if (request.getSupplierId() != null){
-                updatedProduct.setSupplierId(request.getSupplierId());
-            }
             System.out.println("Before Save: "+ updatedProduct);
             updatedProduct = productRepository.save(updatedProduct);
-            UpdateProductResponse response = new UpdateProductResponse(updatedProduct.getProductname());
+            ProductResponse response = new ProductResponse(updatedProduct);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
@@ -76,26 +85,27 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateProductResponse> createUser(@RequestBody CreateProductRequest request) {
-        Product product = new Product();
-        product.setProductname(request.getProductname());
-        product.setPrice(request.getPrice());
-        product.setQuantity(request.getQuantity());
-        product.setStatus(request.isStatus());
-        product.setSupplierId(request.getSupplierId());
-        System.out.println("Before Save: "+ product);
-        Product savedProduct = productRepository.save(product);
-        CreateProductResponse response =
-                new CreateProductResponse(savedProduct.getProductname()
-                        ,savedProduct.getPrice()
-                        ,savedProduct.getQuantity()
-                        ,savedProduct.isStatus()
-                        ,savedProduct.getSupplierId());
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ProductResponse> createUser(@RequestBody CreateProductRequest request) {
+        Optional<Supplier> supplier = supplierRepository.findById(request.getSupplierId());
+        if(supplier.isPresent()) {
+            Product product = new Product();
+            product.setProductname(request.getProductname());
+            product.setPrice(request.getPrice());
+            product.setQuantity(request.getQuantity());
+            product.setStatus(request.isStatus());
+            product.setSupplier(supplier.get());
+            System.out.println("Before Save: " + product);
+            Product savedProduct = productRepository.save(product);
+            ProductResponse response = new ProductResponse(savedProduct);
+            response.setSupplier(supplier.map(SupplierResponse::new).get());
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProductById(@PathVariable int id){
+    public ResponseEntity<Void> deleteProductById(@PathVariable int id){
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()){
             //2. 確定找到 user 之後，取得該 user資料
