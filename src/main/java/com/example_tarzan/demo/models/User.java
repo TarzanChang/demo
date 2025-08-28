@@ -18,6 +18,18 @@ public class User {
     @Column(name="email")
     private String email;
 
+    @Column(name="password")
+    //todo 實際應用環境切勿使用明碼儲存
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User(int id, String username, String email) {
         this.id = id;
         this.username = username;

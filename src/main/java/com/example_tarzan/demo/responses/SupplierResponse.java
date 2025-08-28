@@ -39,6 +39,7 @@ public class SupplierResponse {
         this.address = supplier.getAddress();
         this.phone = supplier.getPhone();
         this.email = supplier.getEmail();
+        //方法一起頭:建立建構子，讓 Controller New 時包含在其中
 //        this.products = supplier.getProducts()
 //                .stream()
 //                .map(ProductResponse::new).toList();

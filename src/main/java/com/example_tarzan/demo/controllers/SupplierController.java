@@ -27,7 +27,15 @@ public class SupplierController {
     @GetMapping
     public ResponseEntity<List<SupplierResponse>> getAllSuppliers(){
         List<Supplier> supplierList = supplierRepository.findAll();
-//        return ResponseEntity.ok(supplierList.stream().map(SupplierResponse::new).toList());
+        //方法一：在 SupplierResponse 加入建構子 this.product = supplier.getProducts().stream().map(ProductResponse::new).toList();
+        //return ResponseEntity.ok(supplierList.stream().map(SupplierResponse::new).toList());
+        //方法二：在 SupplierController 將 Product 賦值 Setter進去
+//        return ResponseEntity.ok(supplierList.stream().map(supplier -> {
+//            SupplierResponse response = new SupplierResponse(supplier);
+//            response.setProducts(supplier.getProducts().stream().map(ProductResponse::new).toList());
+//            return response;
+//        }).toList());
+        //方法三：非 "->" lamda 方式
         List<SupplierResponse> responses = supplierList
                 .stream()
                 .map(supplier -> {

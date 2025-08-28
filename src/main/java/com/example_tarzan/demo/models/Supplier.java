@@ -18,6 +18,8 @@ public class Supplier {
     private String phone;
     @Column(name="email")
     private String email;
+
+    // mappedBy = "objectName" 對應到 @ManyToOne 設定的建構子名稱
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;
 
