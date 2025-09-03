@@ -22,8 +22,8 @@ public class User {
     //todo 實際應用環境切勿使用明碼儲存
     private String password;
 
-//    @Column(name="role")
-//    private String role;
+    @Column(name="role")
+    private String role;
 
     public User(int id, String username, String email) {
         this.id = id;
@@ -66,13 +66,13 @@ public class User {
         this.password = password;
     }
 
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public String toString(){

@@ -23,19 +23,14 @@ import java.util.Optional;
 public class JwtAuthFilter extends OncePerRequestFilter {
     //驗證流程的核心：基於 OncePerRequestFilter 自定義的一個過濾器 JwtAuthFilter
     //確保每個請求都會經過此過濾器一次
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
+//    依賴注入
     @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UserRepository userRepository;
-
-//    private final JwtService jwtService;
-//    private final UserRepository userRepository;
-    //依賴注入
-//    @Autowired
-//    public JwtAuthFilter(JwtService jwtService, UserRepository userRepository) {
-//        this.jwtService = jwtService;
-//        this.userRepository = userRepository;
-//    }
+    public JwtAuthFilter(JwtService jwtService, UserRepository userRepository) {
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+    }
 
     @Override
     //必須實作繼承類的抽象方法 == 過濾器執行的主要邏輯...
@@ -62,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //*****權限
 //                System.out.println("user.isPresent() "+ user);
                 //*** 若使用Spring Security (library)必須包含 授權 (Authorization)邏輯->「該用戶能做什麼？」***
-                List<? extends GrantedAuthority> authorities = getUserAuthorities();
+                List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 //                List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.get().getRole()));
                 //該token並非jwt token，而是Spring Security內部使用的token(包含user & authorities)
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.get(),null, authorities);
