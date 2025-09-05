@@ -68,7 +68,7 @@ public class UserV2Controller {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole("ROLE_USER");
+        user.setRole(request.getRole());
         System.out.println("Before Save: "+ user);
         User savedUser = userRepository.save(user);
         CreateUserResponse response = new CreateUserResponse(savedUser.getUsername());

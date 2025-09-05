@@ -6,10 +6,11 @@ public class RegisterUserRequest {
     private String password;
     private String role;
 
-    public RegisterUserRequest(String username, String email, String password) {
+    public RegisterUserRequest(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public RegisterUserRequest(){

@@ -37,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 從http headers中獲取Authorization欄位-> Bearer ......
         String authHeader = request.getHeader("Authorization");
-        System.out.println("authHeader "+ authHeader);
+//        System.out.println("authHeader "+ authHeader);
         // 檢查Authorization格式是否正確
         //authHeader -> Bearer XXXXXXXX
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
@@ -57,8 +57,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //*****權限
 //                System.out.println("user.isPresent() "+ user);
                 //*** 若使用Spring Security (library)必須包含 授權 (Authorization)邏輯->「該用戶能做什麼？」***
-                List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
-//                List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.get().getRole()));
+                List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.get().getRole()));
+                System.out.println("authorities " + authorities);
                 //該token並非jwt token，而是Spring Security內部使用的token(包含user & authorities)
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.get(),null, authorities);
                 // 將 內部使用的token 投進 Spring Security 認證箱（SecurityContextHolder）

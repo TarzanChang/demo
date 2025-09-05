@@ -9,6 +9,7 @@ import com.example_tarzan.demo.responses.ProductResponse;
 import com.example_tarzan.demo.responses.SupplierResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,6 +66,7 @@ public class SupplierController {
     }
 
     @PutMapping("/{id}")
+//    @PreAuthorize("hasRole('SUPPLIER')")  //方法二：寫在 class，configs 就不用控管
     public ResponseEntity<SupplierResponse> updateSupplierById(@PathVariable int id, @RequestBody UpdateSupplierRequest request){
         Optional<Supplier> supplier = supplierRepository.findById(id);
         if(supplier.isPresent()){

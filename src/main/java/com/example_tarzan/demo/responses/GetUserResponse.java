@@ -5,6 +5,7 @@ import com.example_tarzan.demo.models.User;
 public class GetUserResponse{
     private int id;
     private String username;
+    private String role;
 
     public GetUserResponse() {
 
@@ -18,6 +19,7 @@ public class GetUserResponse{
     public GetUserResponse(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
+        this.role = user.getRole();
     }
 
     public int getId() {
@@ -36,7 +38,11 @@ public class GetUserResponse{
         this.username = username;
     }
 
-//    public void add(GetUserResponse response) {
-//
-//    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

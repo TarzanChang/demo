@@ -30,17 +30,20 @@ public class SecurityConfig {
                 //stateless jwt 用不上 csrf
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-//                                .requestMatchers("/products/**").authenticated()
-//                                .requestMatchers("/v2/users/**").authenticated()
 //                                .anyRequest().permitAll()  //全部請求都不需驗證身分
-                                .requestMatchers("/jwt/**").permitAll()
-                                .requestMatchers("/session/**").permitAll()
-//        //                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html").permitAll()
+//                                .requestMatchers("/jwt/**").permitAll() //代表 jwt所有都開放不控管
+                                .requestMatchers(HttpMethod.POST,"/jwt/register/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/jwt/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/session/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/session/register/**").hasRole("ADMIN")
+                                .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/projects/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/v2/users/**").permitAll()
-//                                // Spring Security 將會自動加上 ROLE_ -> ROLE_ADMIN
-//                                .requestMatchers(HttpMethod.GET,"/suppliers/**").permitAll()
-//                                .requestMatchers("/suppliers/**").hasRole("SUPPLIER")
+                                .requestMatchers(HttpMethod.DELETE,"/v2/users/**").hasRole("ADMIN")
+//                                .requestMatchers(HttpMethod.POST,"/session/register/**").permitAll()
+//                                // Spring Security 將會自動加上前綴 ROLE_ -> ROLE_ADMIN
+                                .requestMatchers(HttpMethod.GET,"/suppliers/**").permitAll()
+                                .requestMatchers("/suppliers/**").hasRole("SUPPLIER")
                                 .anyRequest().authenticated()
                         //可以有邏輯處理，但建議依照需求單純化程式碼
 //                                .requestMatchers(request -> {

@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/session")
+@CrossOrigin("*")
 public class SessionAuthController {
     private final UserService userService;
     private final UserRepository userRepository;
@@ -63,7 +64,7 @@ public class SessionAuthController {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole("ROLE_USER");
+        user.setRole(request.getRole());
         userRepository.save(user);
 
         session.setAttribute("userId",user.getId());

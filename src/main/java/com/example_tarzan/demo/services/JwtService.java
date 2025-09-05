@@ -14,6 +14,7 @@ import java.util.Date;
 public class JwtService {
     private long EXPIRATION_TIME;//毫秒
 
+    //組 Token
     public String generateToken(User user){
         //方法1
 //        JwtBuilder jwts = new JwtBuilder();
@@ -40,6 +41,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyByte);
     }
 
+    //解 Token
     public String getUsernamFromToken(String token){
         return Jwts.parserBuilder()
                 .setSigningKey(getKey()).build()
