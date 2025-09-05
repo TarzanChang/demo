@@ -31,9 +31,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
 //                                .anyRequest().permitAll()  //全部請求都不需驗證身分
-//                                .requestMatchers("/jwt/**").permitAll() //代表 jwt所有都開放不控管
                                 .requestMatchers(HttpMethod.POST,"/jwt/register/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST,"/jwt/**").permitAll()
+                                .requestMatchers("/jwt/**").permitAll() //代表 jwt所有都開放不控管
                                 .requestMatchers(HttpMethod.GET,"/session/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/session/register/**").hasRole("ADMIN")
                                 .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html").permitAll()

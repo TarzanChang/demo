@@ -69,8 +69,4 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-
-    private List<? extends GrantedAuthority> getUserAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
 }

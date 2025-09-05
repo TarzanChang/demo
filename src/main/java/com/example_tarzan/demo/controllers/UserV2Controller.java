@@ -7,6 +7,9 @@ import com.example_tarzan.demo.requests.UpdateUserRequest;
 import com.example_tarzan.demo.responses.CreateUserResponse;
 import com.example_tarzan.demo.responses.GetUserResponse;
 import com.example_tarzan.demo.responses.UpdateUserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("v2/users")
 @CrossOrigin("*")
+@Tag(name = "使用者", description = "使用者 v2 控制器")
 public class UserV2Controller {
     private final UserRepository userRepository;
 
@@ -26,6 +30,7 @@ public class UserV2Controller {
     }
 
     @GetMapping
+    @Operation(summary = "取得所有用戶",security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<List<GetUserResponse>> getAllUsers(){
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users.stream().map(GetUserResponse::new).toList());
