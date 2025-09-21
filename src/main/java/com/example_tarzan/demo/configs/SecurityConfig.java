@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/v2/users/**").hasRole("ADMIN")
 //                                .requestMatchers(HttpMethod.POST,"/session/register/**").permitAll()
 //                                // Spring Security 將會自動加上前綴 ROLE_ -> ROLE_ADMIN
+                                .requestMatchers("/products/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/suppliers/**").permitAll()
                                 .requestMatchers("/suppliers/**").hasRole("SUPPLIER")
                                 .anyRequest().authenticated()
